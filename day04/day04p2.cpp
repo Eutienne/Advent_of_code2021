@@ -34,7 +34,7 @@ int     vertical_bingo(std::vector<int> v)
 {
     for (int y = 0; y < 5; y++)
     {
-        for (int x = x; x < 25 ; x = x +5)
+        for (int x = y; x < 25 ; x = x +5)
         {
             if (v[x] > -1)
                 break ;
@@ -48,7 +48,7 @@ int     vertical_bingo(std::vector<int> v)
 
 int    bingo(std::vector<int> v)
 {
-    int     c;
+    int     c = 0;
     c = horizontal_bingo(v);
     if (c == 0)
         c = vertical_bingo(v);
@@ -57,7 +57,7 @@ int    bingo(std::vector<int> v)
 
 int main()
 {
-    std::ifstream       myfile ("test.txt");
+    std::ifstream       myfile ("file.txt");
     std::vector<int>    vec;
     std::stringstream   S;
     std::string         line;
@@ -95,9 +95,17 @@ int main()
                     else 
                         V[y][x] *= -1;
                     c = bingo(V[y]);
-                    if (c != 0){
-                        std::cout << c * vec[i] << std::endl;
-                        return (0);
+                    if (c != 0)
+                    {
+                        if (V.size() > 1)
+                        {
+                            V.erase(V.begin() + y);
+                            y--;
+                            break ;
+                        }
+                        else{
+                            std::cout << c * vec[i] << std::endl;
+                            return (0);}
                     }
                 }
             }
