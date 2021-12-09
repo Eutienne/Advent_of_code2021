@@ -19,13 +19,13 @@ int find_basin(std::vector<std::string> &v, int x, int y, std::multimap<int, int
     }
     check.insert(std::pair<int, int>(x, y));
 
-    if (v[y][x+1] && v[y][x] < v[y][x+1] && (v[y][x +1] - 48) != 9)
+    if (x +1 < v[y].size() && v[y][x] < v[y][x+1] && (v[y][x +1] - 48) != 9)
         counter += find_basin(v, x +1, y, check);
-    if (v[y][x-1] && v[y][x] < v[y][x-1] && (v[y][x -1] - 48) != 9)
+    if (x  > 0 && v[y][x] < v[y][x-1] && (v[y][x -1] - 48) != 9)
         counter += find_basin(v, x -1, y, check);
-    if (v[y+1][x] && v[y][x] < v[y+1][x] && (v[y +1][x] - 48) != 9)
+    if (y + 1 < v.size() && v[y][x] < v[y+1][x] && (v[y +1][x] - 48) != 9)
         counter += find_basin(v, x , y+1, check);
-    if (v[y-1][x] && v[y][x] < v[y-1][x] && (v[y -1][x] - 48) != 9)
+    if (y > 0 && v[y][x] < v[y-1][x] && (v[y -1][x] - 48) != 9)
         counter += find_basin(v, x, y-1, check);
     return (counter);
 }
@@ -49,28 +49,28 @@ int main()
         for (int x = 0, z; vec[y][x]; x++)
         {
             z = 0;
-            if (vec[y][x + 1])
+            if (x +1 < vec[y].size())
             {
                 if (vec[y][x + 1] > vec[y][x])
                     z++;
             }
             else
                 z++;
-            if (vec[y][x - 1])
+            if (x  > 0)
             {
                 if (vec[y][x - 1] > vec[y][x])
                     z++;
             }
             else
                 z++;
-            if (vec[y + 1][x])
+            if (y + 1 < vec.size())
             {
                 if (vec[y + 1][x] > vec[y][x])
                     z++;
             }
             else
                 z++;
-            if (vec[y - 1][x])
+            if (y > 0)
             {
                 if (vec[y -1 ][x] > vec[y][x])
                     z++;
