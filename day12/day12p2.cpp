@@ -9,8 +9,10 @@
 
 std::set<std::vector<std::string> > paths;
 
-void    dfs( std::multimap<std::string, std::pair<std::string, int> > &c, std::string key, std::vector<std::string> v)
+void    dfs( std::multimap<std::string, std::pair<std::string, int> > &c, std::string key, std::vector<std::string> v, int t)
 {
+    if (std::find(v.begin(), v.end(), key) != v.end() && key[0] > 96 && key[0] < 123)
+        t = 1;
     v.push_back(key);
     if (key == "end")
     {
@@ -26,10 +28,10 @@ void    dfs( std::multimap<std::string, std::pair<std::string, int> > &c, std::s
     {
         if (it1->second.first != "start")
         {
-            if (it1->second.first[0] > 96 && it1->second.first[0] < 123 && std::find(v.begin(), v.end(), it1->second.first) == v.end() && it1->second.first != "end")
-                dfs(c, it1->second.first, v);
+            if (it1->second.first[0] > 96 && it1->second.first[0] < 123 && (t == 0 || std::find(v.begin(), v.end(), it1->second.first) == v.end()) && it1->second.first != "end")
+                dfs(c, it1->second.first, v, t);
             else if ((it1->second.first[0] > 64 && it1->second.first[0] < 91) || it1->second.first == "end")
-                dfs(c, it1->second.first, v);
+                dfs(c, it1->second.first, v, t);
         }
     }
 
@@ -55,7 +57,7 @@ int main(int argc, char** argv)
         chamber.insert(std::make_pair(s2, std::make_pair(s1, 0)));
     }
     
-    dfs(chamber, "start", v);
+    dfs(chamber, "start", v, 0);
 
     std::cout << paths.size() <<std::endl;
 //     for (auto it = chamber.begin(); it != chamber.end(); it++){
